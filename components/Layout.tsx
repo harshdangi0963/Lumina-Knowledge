@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
@@ -13,7 +12,7 @@ import {
   Users
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from './ui/Aceternity';
+import { cn } from './ui/Aceternity.tsx';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,13 +31,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   ];
 
   const isHome = location.pathname === '/';
-  // FIX: Added 'as const' to the type property to satisfy Framer Motion's strict Transition types
   const springConfig = { type: "spring" as const, stiffness: 260, damping: 32, mass: 0.8 };
 
   return (
     <div className="flex h-screen bg-neutral-950 overflow-hidden font-sans text-neutral-200 selection:bg-primary-500/30">
-      
-      {/* Sidebar - Precision Gliding */}
       <AnimatePresence mode="wait">
         {!hidden && (
           <motion.aside 

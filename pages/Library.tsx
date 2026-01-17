@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MOCK_DOCUMENTS, containerVariants, itemVariants } from '../constants';
+import { MOCK_DOCUMENTS, containerVariants, itemVariants } from '../constants.ts';
 import { UploadCloud, FileText, CheckCircle2, AlertCircle, Loader2, Filter, MoreHorizontal } from 'lucide-react';
-import { Button } from '../components/ui/Button';
+import { Button } from '../components/ui/Button.tsx';
 
 export const Library: React.FC = () => {
   return (

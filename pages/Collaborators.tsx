@@ -1,14 +1,13 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_COLLABORATORS, containerVariants, itemVariants } from '../constants';
+import { MOCK_COLLABORATORS, containerVariants, itemVariants } from '../constants.ts';
 import { 
   Users, Plus, Shield, ShieldAlert, ShieldCheck, Mail, Calendar, 
   MoreHorizontal, Search, Loader2, CheckCircle2, X, UserMinus, 
   History, Activity, Key
 } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { cn } from '../components/ui/Aceternity';
+import { Button } from '../components/ui/Button.tsx';
+import { cn } from '../components/ui/Aceternity.tsx';
 
 export const Collaborators: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');

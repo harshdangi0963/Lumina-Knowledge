@@ -1,4 +1,4 @@
-import { DocType, CollectionVisibility, Document, Collection, ChatMessage, HistoryEvent, Collaborator } from './types';
+import { DocType, CollectionVisibility, Document, Collection, ChatMessage, HistoryEvent, Collaborator } from './types.ts';
 
 export const MOCK_DOCUMENTS: Document[] = [
   {

@@ -1,15 +1,14 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_COLLECTIONS, MOCK_DOCUMENTS, containerVariants, itemVariants } from '../constants';
+import { MOCK_COLLECTIONS, MOCK_DOCUMENTS, containerVariants, itemVariants } from '../constants.ts';
 import { 
   ChevronLeft, Filter, Plus, Layers, Grid, FileText, 
   Loader2, Sparkles, Zap, ArrowRight, Share2, 
   Trash2, Move, Download, MoreHorizontal, Database
 } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { cn } from '../components/ui/Aceternity';
+import { Button } from '../components/ui/Button.tsx';
+import { cn } from '../components/ui/Aceternity.tsx';
 
 export const CollectionDetail: React.FC = () => {
   const { id } = useParams();

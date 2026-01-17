@@ -1,15 +1,14 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_COLLECTIONS, containerVariants, itemVariants } from '../constants';
+import { MOCK_COLLECTIONS, containerVariants, itemVariants } from '../constants.ts';
 import { 
   Plus, Users, Lock, MoreVertical, Layers, Grid, Zap, 
   Trash2, Copy, Edit2, Archive, Loader2, CheckCircle2, 
   ShieldCheck, Database, LayoutGrid, List
 } from 'lucide-react';
-import { Button } from '../components/ui/Button';
+import { Button } from '../components/ui/Button.tsx';
 import { useNavigate } from 'react-router-dom';
-import { cn } from '../components/ui/Aceternity';
+import { cn } from '../components/ui/Aceternity.tsx';
 
 export const Collections: React.FC = () => {
   const navigate = useNavigate();

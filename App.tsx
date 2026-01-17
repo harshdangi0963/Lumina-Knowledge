@@ -1,15 +1,15 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { Layout } from './components/Layout';
-import { Home } from './pages/Home';
-import { SearchResults } from './pages/SearchResults';
-import { AskAI } from './pages/AskAI';
-import { Collections } from './pages/Collections';
-import { CollectionDetail } from './pages/CollectionDetail';
-import { DocumentReader } from './pages/DocumentReader';
-import { History } from './pages/History';
-import { Collaborators } from './pages/Collaborators';
+import { Layout } from './components/Layout.tsx';
+import { Home } from './pages/Home.tsx';
+import { SearchResults } from './pages/SearchResults.tsx';
+import { AskAI } from './pages/AskAI.tsx';
+import { Collections } from './pages/Collections.tsx';
+import { CollectionDetail } from './pages/CollectionDetail.tsx';
+import { DocumentReader } from './pages/DocumentReader.tsx';
+import { History } from './pages/History.tsx';
+import { Collaborators } from './pages/Collaborators.tsx';
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();

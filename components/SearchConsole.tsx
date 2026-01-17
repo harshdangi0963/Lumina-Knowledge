@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Sparkles, ArrowRight, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { cn } from './ui/Aceternity';
+import { cn } from './ui/Aceternity.tsx';
 
 interface SearchConsoleProps {
   initialMode?: 'search' | 'ask';
@@ -55,26 +54,19 @@ export const SearchConsole: React.FC<SearchConsoleProps> = ({
     }
   };
 
-  // Compact Switcher Constants
   const TOGGLE_BUTTON_WIDTH = 104; 
 
   return (
     <div className={cn("relative w-full max-w-6xl mx-auto transition-all duration-500 z-50", compact ? 'scale-95' : 'scale-100')}>
-      
-      {/* Integrated Search Bar */}
       <form onSubmit={handleSubmit} className="relative group">
-        {/* Animated Border Gradient */}
         <div className={cn(
             "absolute -inset-0.5 bg-gradient-to-r from-transparent via-neutral-700 to-transparent rounded-[2.2rem] opacity-20 transition duration-500 group-hover:opacity-40 blur",
             isFocused && (mode === 'ask' ? "via-primary-500 opacity-80" : "via-neutral-400 opacity-60")
         )} />
 
         <div className="relative flex items-center bg-neutral-950/90 rounded-[2.1rem] border border-neutral-800 transition-all duration-300 overflow-hidden shadow-2xl min-h-[84px] backdrop-blur-2xl">
-          
-          {/* Internal Mode Switcher - Compact Fixed Width */}
           <div className="pl-4 pr-1 flex items-center h-full">
              <div className="flex bg-neutral-900/40 p-1 rounded-2xl border border-neutral-800/40 relative overflow-hidden h-14 items-center">
-                {/* Sliding Background (The Glass Pill) - Optimized Spring */}
                 <motion.div 
                   initial={false}
                   animate={{ 
@@ -123,7 +115,6 @@ export const SearchConsole: React.FC<SearchConsoleProps> = ({
              </div>
           </div>
 
-          {/* Input Field Area - Maximized Space */}
           <div className="flex-1 relative h-20 flex items-center">
             <input
               type="text"
@@ -152,7 +143,6 @@ export const SearchConsole: React.FC<SearchConsoleProps> = ({
             </AnimatePresence>
           </div>
 
-          {/* Trailing Actions */}
           <div className="pr-6 flex items-center space-x-4 z-10">
             {query && (
                <button 

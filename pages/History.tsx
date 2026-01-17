@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_HISTORY, containerVariants, itemVariants } from '../constants';
+import { MOCK_HISTORY, containerVariants, itemVariants } from '../constants.ts';
 import { 
   History as HistoryIcon, 
   Clock, 
@@ -19,8 +19,8 @@ import {
   ShieldCheck,
   Terminal
 } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { cn } from '../components/ui/Aceternity';
+import { Button } from '../components/ui/Button.tsx';
+import { cn } from '../components/ui/Aceternity.tsx';
 
 export const History: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -229,7 +229,7 @@ export const History: React.FC = () => {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="relative w-full max-w-2xl bg-neutral-900 border border-neutral-800 rounded-[2.5rem] overflow-hidden shadow-2xl"
             >
-               <div className="p-8 border-b border-neutral-800 flex items-center justify-between">
+               <div className="p-8 border-b border-neutral-800 flex items-center justify-between bg-neutral-900/50 backdrop-blur-md">
                   <div className="flex items-center gap-4">
                      <div className={cn("p-4 rounded-2xl border", getEventColor(selectedEvent.type))}>
                         {getEventIcon(selectedEvent.type)}

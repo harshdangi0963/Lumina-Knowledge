@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, FolderPlus, UploadCloud, Users, X } from 'lucide-react';
-import { cn } from './ui/Aceternity';
+import { cn } from './ui/Aceternity.tsx';
 
 interface QuickActionItem {
   icon: React.ElementType;

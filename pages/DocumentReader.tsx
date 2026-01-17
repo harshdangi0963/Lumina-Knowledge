@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_DOCUMENTS } from '../constants';
+import { MOCK_DOCUMENTS } from '../constants.ts';
 import { ChevronLeft, FileText, Sparkles, Zap, MessageSquare, BookOpen, Share2, MoreHorizontal, Copy } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { cn } from '../components/ui/Aceternity';
+import { Button } from '../components/ui/Button.tsx';
+import { cn } from '../components/ui/Aceternity.tsx';
 
 export const DocumentReader: React.FC = () => {
   const { id } = useParams();

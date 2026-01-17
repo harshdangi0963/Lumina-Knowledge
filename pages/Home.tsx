@@ -1,22 +1,17 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SearchConsole } from '../components/SearchConsole';
-import { QuickActions } from '../components/QuickActions';
+import { SearchConsole } from '../components/SearchConsole.tsx';
+import { QuickActions } from '../components/QuickActions.tsx';
 import { Stars } from 'lucide-react';
-import { Spotlight, TextGenerateEffect, BackgroundBeams } from '../components/ui/Aceternity';
+import { Spotlight, TextGenerateEffect, BackgroundBeams } from '../components/ui/Aceternity.tsx';
 
 export const Home: React.FC = () => {
   return (
     <div className="h-full flex flex-col relative w-full overflow-hidden items-center justify-center">
-      
-      {/* Background Visuals */}
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
       <BackgroundBeams />
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center -mt-20">
-        
-        {/* Badge */}
         <motion.div
            initial={{ opacity: 0, y: 20 }}
            animate={{ opacity: 1, y: 0 }}
@@ -26,7 +21,6 @@ export const Home: React.FC = () => {
            <span className="text-xs font-medium text-neutral-300">Lumina Operator Node 2.4 Active</span>
         </motion.div>
 
-        {/* Hero Text */}
         <div className="text-center mb-12 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-display font-bold text-white tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
             Intelligence, <br />
@@ -37,7 +31,6 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* Search Console - Integrated Toggle inside */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -47,7 +40,6 @@ export const Home: React.FC = () => {
           <SearchConsole />
         </motion.div>
 
-        {/* Clean Footer / Hint */}
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -58,7 +50,6 @@ export const Home: React.FC = () => {
         </motion.p>
       </div>
 
-      {/* Floating Quick Action Hub */}
       <QuickActions />
     </div>
   );

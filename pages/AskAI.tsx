@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { SearchConsole } from '../components/SearchConsole';
-import { MOCK_CHAT_HISTORY, MOCK_DOCUMENTS } from '../constants';
+import { SearchConsole } from '../components/SearchConsole.tsx';
+import { MOCK_CHAT_HISTORY, MOCK_DOCUMENTS } from '../constants.ts';
 import { User, Sparkles, FileText, ThumbsUp, ThumbsDown, Copy, RefreshCw, Zap } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { cn, TextGenerateEffect } from '../components/ui/Aceternity';
+import { Button } from '../components/ui/Button.tsx';
+import { cn, TextGenerateEffect } from '../components/ui/Aceternity.tsx';
 
 export const AskAI: React.FC = () => {
   const [messages, setMessages] = useState(MOCK_CHAT_HISTORY);

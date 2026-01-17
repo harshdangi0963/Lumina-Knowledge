@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SearchConsole } from '../components/SearchConsole';
-import { MOCK_DOCUMENTS } from '../constants';
+import { SearchConsole } from '../components/SearchConsole.tsx';
+import { MOCK_DOCUMENTS } from '../constants.ts';
 import { FileText, Filter, X, ChevronDown, Calendar, Tag, File } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { HoverEffect, cn } from '../components/ui/Aceternity';
+import { Button } from '../components/ui/Button.tsx';
+import { HoverEffect, cn } from '../components/ui/Aceternity.tsx';
 
 export const SearchResults: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
