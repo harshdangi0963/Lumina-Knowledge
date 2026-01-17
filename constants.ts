@@ -1,3 +1,4 @@
+
 import { DocType, CollectionVisibility, Document, Collection, ChatMessage, HistoryEvent, Collaborator } from './types.ts';
 
 export const MOCK_DOCUMENTS: Document[] = [
@@ -35,6 +36,64 @@ export const MOCK_DOCUMENTS: Document[] = [
     snippet: 'Welcome to the team! This guide covers benefits, tools, and our cultural values...',
     tags: ['HR', 'Internal'],
     status: 'indexed'
+  },
+  {
+    id: '4',
+    title: 'Cybersecurity Protocol v4.0',
+    type: DocType.PDF,
+    size: '4.2 MB',
+    updatedAt: '5 hours ago',
+    author: 'SecOps Team',
+    snippet: 'Revised security measures for zero-trust architecture and multi-factor hardware keys...',
+    content: 'SECURITY PROTOCOL V4.0\n\n1. ZERO TRUST ARCHITECTURE\nAll internal nodes must verify identity on every request. No network segment is implicitly trusted.\n\n2. ENCRYPTION STANDARDS\nData at rest must be encrypted using AES-256-GCM. Data in transit requires TLS 1.3 or higher.\n\n3. INCIDENT RESPONSE\nIn the event of a breach, automated silo isolation will trigger within 50ms of detection.',
+    tags: ['Security', 'Compliance', 'Audit'],
+    status: 'indexed'
+  },
+  {
+    id: '5',
+    title: 'Quantum Computing Whitepaper',
+    type: DocType.TEXT,
+    size: '120 KB',
+    updatedAt: '1 week ago',
+    author: 'Dr. Aris Thorne',
+    snippet: 'Exploration of post-quantum cryptography impacts on current knowledge distribution...',
+    content: 'POST-QUANTUM CRYPTOGRAPHY IMPACT ANALYSIS\n\nThe advent of Shor\'s algorithm poses a significant threat to RSA-based encryption. Lumina is transitioning to lattice-based cryptographic structures to ensure long-term data durability in a post-quantum world.\n\nKey areas of research:\n- Kyber key encapsulation\n- Dilithium digital signatures\n- Quantum random number generation for entropy pools.',
+    tags: ['R&D', 'Quantum', 'Security'],
+    status: 'indexed'
+  },
+  {
+    id: '6',
+    title: 'Global Expansion Analysis: EMEA',
+    type: DocType.SHEET,
+    size: '1.2 MB',
+    updatedAt: '12 hours ago',
+    author: 'David Wright',
+    snippet: 'Market penetration metrics for the EMEA region including competitor pricing models...',
+    tags: ['Sales', 'Market', 'EMEA'],
+    status: 'processing'
+  },
+  {
+    id: '7',
+    title: 'Brand Identity Guidelines 2025',
+    type: DocType.IMAGE,
+    size: '45 MB',
+    updatedAt: '2 days ago',
+    author: 'Design Studio',
+    snippet: 'High-resolution visual assets and color theory for the new Lumina 3.0 interface...',
+    tags: ['Design', 'Brand', 'UI'],
+    status: 'indexed'
+  },
+  {
+    id: '8',
+    title: 'Core API Specification',
+    type: DocType.DOCX,
+    size: '3.1 MB',
+    updatedAt: 'Just now',
+    author: 'Engineering',
+    snippet: 'Comprehensive documentation for the Lumina Knowledge Mesh API endpoints...',
+    content: 'CORE API DOCUMENTATION v2.4\n\nBASE URL: https://api.lumina.ai/v2\n\nENDPOINTS:\n- GET /nodes: List active intelligence silos\n- POST /search: Perform semantic vector search\n- PUT /sync: Force synchronize local cache with master mesh\n\nAUTHENTICATION:\nBearer tokens with short-lived TTL are required for all non-public endpoints.',
+    tags: ['Dev', 'API', 'Docs'],
+    status: 'indexed'
   }
 ];
 
@@ -43,7 +102,7 @@ export const MOCK_COLLECTIONS: Collection[] = [
     id: 'c1',
     name: 'Marketing Assets',
     description: 'Brand guidelines, logos, and Q4 campaign materials.',
-    coverImage: 'https://picsum.photos/800/400?random=1',
+    coverImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800',
     author: 'Marketing Team',
     itemCount: 24,
     visibility: CollectionVisibility.TEAM,
@@ -53,7 +112,7 @@ export const MOCK_COLLECTIONS: Collection[] = [
     id: 'c2',
     name: 'Legal Contracts',
     description: 'Standard NDAs, MSAs, and vendor agreements.',
-    coverImage: 'https://picsum.photos/800/400?random=2',
+    coverImage: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800',
     author: 'Legal Dept',
     itemCount: 156,
     visibility: CollectionVisibility.PRIVATE,
@@ -63,7 +122,7 @@ export const MOCK_COLLECTIONS: Collection[] = [
     id: 'c3',
     name: 'Engineering Resources',
     description: 'Architecture diagrams, API docs, and tech specs.',
-    coverImage: 'https://picsum.photos/800/400?random=3',
+    coverImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
     author: 'CTO Office',
     itemCount: 89,
     visibility: CollectionVisibility.TEAM,
@@ -76,12 +135,14 @@ export const MOCK_HISTORY: HistoryEvent[] = [
   { id: 'h2', type: 'access', user: 'John Doe', target: 'Legal Contracts', timestamp: '5 hours ago', description: 'Viewed NDA Template' },
   { id: 'h3', type: 'provision', user: 'System', target: 'Mike Ross', timestamp: '1 day ago', description: 'Provisioned Editor access' },
   { id: 'h4', type: 'rollback', user: 'Admin', target: 'Roadmap v2', timestamp: '2 days ago', description: 'Rolled back to Snapshot 2024.11.01' },
+  { id: 'h5', type: 'edit', user: 'Engineering', target: 'Core API Specification', timestamp: 'Just now', description: 'Updated authentication documentation' },
 ];
 
 export const MOCK_COLLABORATORS: Collaborator[] = [
   { id: 'u1', name: 'Sarah Chen', email: 'sarah@lumina.ai', role: 'Admin', joinedAt: '2023-10-12' },
   { id: 'u2', name: 'Mike Ross', email: 'mike@lumina.ai', role: 'Editor', joinedAt: '2024-01-05' },
   { id: 'u3', name: 'Rachel Zane', email: 'rachel@lumina.ai', role: 'Viewer', joinedAt: '2024-03-20' },
+  { id: 'u4', name: 'David Wright', email: 'david@lumina.ai', role: 'Editor', joinedAt: '2024-05-15' },
 ];
 
 export const MOCK_CHAT_HISTORY: ChatMessage[] = [

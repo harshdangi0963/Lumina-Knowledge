@@ -1,11 +1,40 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SearchConsole } from '../components/SearchConsole.tsx';
 import { QuickActions } from '../components/QuickActions.tsx';
-import { Stars } from 'lucide-react';
-import { Spotlight, TextGenerateEffect, BackgroundBeams } from '../components/ui/Aceternity.tsx';
+import { Stars, Clock } from 'lucide-react';
+import { Spotlight, BackgroundBeams } from '../components/ui/Aceternity.tsx';
 
 export const Home: React.FC = () => {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    // Update every second to ensure the minute change is reflected precisely
+    const timer = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-US', { 
+      hour12: false, 
+      hour: '2-digit', 
+      minute: '2-digit'
+    });
+  };
+
+  const formatDate = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
+    return date.toLocaleDateString('en-US', options).toUpperCase();
+  };
+
   return (
     <div className="h-full flex flex-col relative w-full overflow-hidden items-center justify-center">
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
@@ -22,13 +51,29 @@ export const Home: React.FC = () => {
         </motion.div>
 
         <div className="text-center mb-12 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-display font-bold text-white tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
-            Intelligence, <br />
-            <span className="text-white">perfectly indexed.</span>
-          </h1>
-          <div className="flex justify-center">
-             <TextGenerateEffect words="Synthesize global knowledge silos with universal search and deep AI reasoning." className="text-lg md:text-xl text-neutral-400 font-normal max-w-2xl" />
-          </div>
+          <motion.div
+            initial={{ opacity: 0, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, filter: 'blur(0px)' }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col items-center"
+          >
+            {/* Added px-4 and softened tracking to prevent gradient clipping */}
+            <h1 className="text-7xl md:text-9xl font-display font-bold text-white tracking-tight px-4 mb-4 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 via-neutral-200 to-neutral-500">
+              {formatTime(time)}
+            </h1>
+            
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="flex items-center gap-3 text-neutral-500 font-bold tracking-[0.4em] text-[10px] md:text-xs uppercase"
+            >
+              <div className="h-[1px] w-8 bg-neutral-800" />
+              <Clock size={12} className="text-primary-500" />
+              <span>{formatDate(time).replace(',', ' //')}</span>
+              <div className="h-[1px] w-8 bg-neutral-800" />
+            </motion.div>
+          </motion.div>
         </div>
 
         <motion.div
