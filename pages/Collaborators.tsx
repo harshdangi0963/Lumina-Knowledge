@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MOCK_COLLABORATORS, containerVariants, itemVariants } from '../constants.ts';
 import { 
   Users, Plus, Shield, ShieldAlert, ShieldCheck, Mail, Calendar, 
@@ -13,6 +13,7 @@ import { cn } from '../components/ui/Aceternity.tsx';
 
 export const Collaborators: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
@@ -99,7 +100,6 @@ export const Collaborators: React.FC = () => {
                 className="w-full bg-neutral-950 border border-neutral-800 rounded-2xl pl-12 pr-4 py-3 text-sm text-white focus:border-primary-500 outline-none transition-all"
               />
            </div>
-           <Button variant="secondary" className="rounded-xl h-11 active:scale-95"><History size={16} className="mr-2" /> Audit Access</Button>
         </div>
 
         <div className="px-8 py-5 grid grid-cols-12 gap-4 text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em] border-b border-neutral-800/60">

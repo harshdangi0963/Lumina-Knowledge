@@ -1,6 +1,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 // Add HistoryEvent to imports to fix type mismatch
 import { HistoryEvent } from '../types.ts';
 import { MOCK_HISTORY, containerVariants, itemVariants, SMOOTH_TRANSITION } from '../constants.ts';
@@ -30,6 +31,7 @@ import { Button } from '../components/ui/Button.tsx';
 import { cn } from '../components/ui/Aceternity.tsx';
 
 export const History: React.FC = () => {
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'edit' | 'access' | 'provision' | 'rollback'>('all');
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
@@ -41,6 +43,15 @@ export const History: React.FC = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationProgress, setVerificationProgress] = useState(0);
   const [isLive, setIsLive] = useState(false);
+
+  // Parse URL query params for filter
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const filterParam = params.get('filter');
+    if (filterParam && ['all', 'edit', 'access', 'provision', 'rollback'].includes(filterParam)) {
+      setFilter(filterParam as any);
+    }
+  }, [location.search]);
 
   // Simulated Live Stream
   useEffect(() => {
