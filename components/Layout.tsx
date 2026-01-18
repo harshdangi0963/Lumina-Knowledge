@@ -32,7 +32,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   ];
 
   const isHome = location.pathname === '/';
-  const springConfig = { type: "spring" as const, stiffness: 260, damping: 32, mass: 0.8 };
+  // Snappier spring: Higher stiffness, balanced damping
+  const springConfig = { type: "spring" as const, stiffness: 450, damping: 40, mass: 1 };
 
   return (
     <div className="flex h-screen bg-neutral-950 overflow-hidden font-sans text-neutral-200 selection:bg-primary-500/30">
@@ -65,7 +66,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                        initial={{ opacity: 0, x: -10 }} 
                        animate={{ opacity: 1, x: 0 }} 
                        exit={{ opacity: 0, x: -10 }}
-                       transition={{ duration: 0.2 }}
+                       transition={{ duration: 0.15 }}
                        className="font-display font-bold text-xl tracking-tight text-white whitespace-nowrap"
                      >
                        Lumina
@@ -101,7 +102,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -10 }}
-                          transition={{ duration: 0.2 }}
+                          transition={{ duration: 0.15 }}
                           className="whitespace-nowrap font-medium relative z-10"
                         >
                           {item.label}
@@ -119,16 +120,16 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-white/[0.05] hover:text-white transition-all active:scale-95"
                 >
                   <PanelLeftClose size={20} className="shrink-0" />
-                  {!collapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Hide Sidebar</motion.span>}
+                  {!collapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}>Hide Sidebar</motion.span>}
                </button>
                <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-white/[0.05] hover:text-white transition-all active:scale-95">
                   <Settings size={20} className="shrink-0" />
-                  {!collapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Settings</motion.span>}
+                  {!collapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}>Settings</motion.span>}
                </button>
                <div className={cn("flex items-center gap-3 px-3 py-3 mt-2 rounded-xl bg-white/[0.05] border border-white/10 transition-all", collapsed ? 'justify-center' : '')}>
                   <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold text-xs shrink-0">JD</div>
                   {!collapsed && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 min-w-0">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }} className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-white truncate leading-none">John Doe</p>
                       <p className="text-[10px] text-neutral-500 truncate mt-1 uppercase tracking-wider">Pro Member</p>
                     </motion.div>

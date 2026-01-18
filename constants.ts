@@ -1,11 +1,12 @@
 
 import { DocType, CollectionVisibility, Document, Collection, ChatMessage, HistoryEvent, Collaborator } from './types.ts';
+import { Variants } from 'framer-motion';
 
-// Fix: Explicitly type the ease array as a cubic-bezier tuple [number, number, number, number]
-// to satisfy Framer Motion's Transition type expectations, preventing "number[]" assignment errors.
+// SNAPPY_TRANSITION: Optimized for a high-performance, professional feel.
+// Reduced duration to 0.25s and used a faster entrance curve.
 export const SMOOTH_TRANSITION = {
-  duration: 0.4,
-  ease: [0.16, 1, 0.3, 1] as [number, number, number, number]
+  duration: 0.25,
+  ease: [0.23, 1, 0.32, 1] as [number, number, number, number]
 };
 
 export const MOCK_DOCUMENTS: Document[] = [
@@ -190,15 +191,17 @@ export const MOCK_CHAT_HISTORY: ChatMessage[] = [
   }
 ];
 
-export const containerVariants = {
+// Fix: Add explicit Variants type to avoid easing array inference issues across consumers
+export const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
+    transition: { staggerChildren: 0.05 } // Snappier stagger
   }
 };
 
-export const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.3 } }
+// Fix: Add explicit Variants type and cast ease array to a fixed tuple to match framer-motion's Easing type
+export const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 }, // Reduced y travel
+  show: { opacity: 1, y: 0, transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] } }
 };
