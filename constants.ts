@@ -1,6 +1,6 @@
 
 import { DocType, CollectionVisibility, Document, Collection, ChatMessage, HistoryEvent, Collaborator } from './types.ts';
-import { Variants } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 // SNAPPY_TRANSITION: Optimized for a high-performance, professional feel.
 // Reduced duration to 0.25s and used a faster entrance curve.

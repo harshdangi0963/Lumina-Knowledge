@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SearchConsole } from '../components/SearchConsole.tsx';
-import { Stars, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { Spotlight, BackgroundBeams } from '../components/ui/Aceternity.tsx';
 import { QuickActions } from '../components/QuickActions.tsx';
 import { SMOOTH_TRANSITION } from '../constants.ts';
@@ -41,16 +41,6 @@ export const Home: React.FC = () => {
       <BackgroundBeams />
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center -mt-12">
-        <motion.div
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={SMOOTH_TRANSITION}
-           className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/5 backdrop-blur-md mb-8"
-        >
-           <Stars size={12} className="text-primary-400" />
-           <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-400">Lumina Operator Node 2.4 Active</span>
-        </motion.div>
-
         <div className="text-center mb-12 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, filter: 'blur(10px)' }}
@@ -58,7 +48,6 @@ export const Home: React.FC = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col items-center"
           >
-            {/* Clock set to 8xl/9rem as requested */}
             <h1 
               style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Outfit", sans-serif' }}
               className="text-8xl md:text-[9rem] font-bold text-white tracking-[-0.04em] px-4 mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-500 leading-none"
