@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 import { cn } from './Aceternity.tsx';
@@ -17,14 +18,14 @@ export const Button: React.FC<ButtonProps> = ({
   className = '', 
   ...props 
 }) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:pointer-events-none relative overflow-hidden";
+  const baseStyles = "inline-flex items-center justify-center rounded-xl font-medium transition-all focus:outline-none focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:pointer-events-none relative overflow-hidden active:scale-[0.98]";
   
   const variants = {
     primary: "bg-neutral-100 text-neutral-900 hover:bg-white shadow-[0_0_20px_rgba(255,255,255,0.3)] border border-transparent",
-    secondary: "bg-neutral-800 text-neutral-200 border border-neutral-700 hover:bg-neutral-700 hover:border-neutral-600 shadow-sm",
-    ghost: "bg-transparent text-neutral-400 hover:bg-neutral-800 hover:text-white",
-    outline: "bg-transparent border border-neutral-700 text-neutral-300 hover:bg-neutral-800 hover:text-white",
-    danger: "bg-red-900/30 text-red-400 hover:bg-red-900/50 border border-red-900",
+    secondary: "bg-white/10 backdrop-blur-md text-neutral-200 border border-white/10 hover:bg-white/20 hover:border-white/20 shadow-sm",
+    ghost: "bg-transparent text-neutral-400 hover:bg-white/5 hover:text-white backdrop-blur-sm",
+    outline: "bg-white/5 backdrop-blur-sm border border-white/10 text-neutral-300 hover:bg-white/10 hover:text-white hover:border-white/20",
+    danger: "bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 backdrop-blur-sm",
     glow: "bg-indigo-600 text-white shadow-[0_0_25px_rgba(79,70,229,0.5)] border border-indigo-500 hover:bg-indigo-500"
   };
 
@@ -42,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={loading}
       {...props}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:animate-shimmer" />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent translate-x-[-100%] group-hover:animate-shimmer" />
       
       {loading ? (
         <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

@@ -1,21 +1,42 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_COLLECTIONS, containerVariants, itemVariants } from '../constants.ts';
+import { useLocation } from 'react-router-dom';
+import { MOCK_COLLECTIONS, MOCK_COLLABORATORS, containerVariants, itemVariants } from '../constants.ts';
 import { 
   Plus, Users, Lock, MoreVertical, Layers, Grid, Zap, 
   Trash2, Copy, Edit2, Archive, Loader2, CheckCircle2, 
-  ShieldCheck, Database, LayoutGrid, List
+  ShieldCheck, Database, LayoutGrid, List, UserPlus, ChevronRight, X
 } from 'lucide-react';
 import { Button } from '../components/ui/Button.tsx';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '../components/ui/Aceternity.tsx';
 
+type ProvisionStep = 'form' | 'collaborators' | 'loading' | 'success';
+
 export const Collections: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showProvisionModal, setShowProvisionModal] = useState(false);
-  const [provisionStep, setProvisionStep] = useState<'form' | 'loading' | 'success'>('form');
+  const [provisionStep, setProvisionStep] = useState<ProvisionStep>('form');
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [selectedCollaborators, setSelectedCollaborators] = useState<string[]>([]);
+
+  // Monitor URL parameters for action triggers
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('action') === 'create') {
+      setShowProvisionModal(true);
+      // Clean up the URL to prevent re-opening on manual refresh if desired, 
+      // or keep it to allow sharing "create" links.
+    }
+  }, [location]);
+
+  const handleNext = () => {
+    if (provisionStep === 'form') setProvisionStep('collaborators');
+    else if (provisionStep === 'collaborators') handleProvision();
+  };
 
   const handleProvision = () => {
     setProvisionStep('loading');
@@ -23,7 +44,16 @@ export const Collections: React.FC = () => {
     setTimeout(() => {
       setShowProvisionModal(false);
       setProvisionStep('form');
+      setSelectedCollaborators([]);
+      // Clear query params after completion
+      navigate('/collections', { replace: true });
     }, 5000);
+  };
+
+  const toggleCollaborator = (id: string) => {
+    setSelectedCollaborators(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
   };
 
   const toggleMenu = (e: React.MouseEvent, id: string) => {
@@ -41,14 +71,14 @@ export const Collections: React.FC = () => {
         </div>
         <div className="flex gap-3">
           <div className="flex bg-neutral-900/80 p-1 rounded-xl border border-neutral-800 mr-2">
-             <button onClick={() => setViewMode('grid')} className={cn("p-2 rounded-lg transition-all", viewMode === 'grid' ? "bg-neutral-800 text-white" : "text-neutral-500 hover:text-neutral-300")}>
+             <button onClick={() => setViewMode('grid')} className={cn("p-2 rounded-lg transition-all active:scale-90", viewMode === 'grid' ? "bg-neutral-800 text-white shadow-inner" : "text-neutral-500 hover:text-neutral-300")}>
                 <LayoutGrid size={18} />
              </button>
-             <button onClick={() => setViewMode('list')} className={cn("p-2 rounded-lg transition-all", viewMode === 'list' ? "bg-neutral-800 text-white" : "text-neutral-500 hover:text-neutral-300")}>
+             <button onClick={() => setViewMode('list')} className={cn("p-2 rounded-lg transition-all active:scale-90", viewMode === 'list' ? "bg-neutral-800 text-white shadow-inner" : "text-neutral-500 hover:text-neutral-300")}>
                 <List size={18} />
              </button>
           </div>
-          <Button variant="glow" size="lg" className="rounded-2xl h-12" onClick={() => setShowProvisionModal(true)}>
+          <Button variant="glow" size="lg" className="rounded-2xl h-12 active:scale-95" onClick={() => setShowProvisionModal(true)}>
             <Plus size={20} className="mr-2" /> Provision Node
           </Button>
         </div>
@@ -64,11 +94,10 @@ export const Collections: React.FC = () => {
           viewMode === 'grid' ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
         )}
       >
-        {/* Master Library Card */}
         <motion.div
           variants={itemVariants}
           onClick={() => navigate('/collections/all')}
-          className="group relative h-64 bg-gradient-to-br from-primary-600/20 to-indigo-600/20 backdrop-blur-xl rounded-3xl border border-primary-500/30 hover:border-primary-500 transition-all cursor-pointer overflow-hidden flex flex-col justify-center items-center shadow-2xl shadow-primary-900/10"
+          className="group relative h-64 bg-gradient-to-br from-primary-600/20 to-indigo-600/20 backdrop-blur-xl rounded-3xl border border-primary-500/30 hover:border-primary-500 transition-all cursor-pointer overflow-hidden flex flex-col justify-center items-center shadow-2xl shadow-primary-900/10 active:scale-[0.98]"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-primary-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
           <Layers size={48} className="text-primary-400 mb-4 group-hover:scale-110 transition-transform duration-500" />
@@ -85,13 +114,12 @@ export const Collections: React.FC = () => {
             key={collection.id}
             variants={itemVariants}
             onClick={() => navigate(`/collections/${collection.id}`)}
-            className="group relative bg-neutral-900/50 backdrop-blur-sm rounded-3xl border border-neutral-800 hover:border-neutral-700 transition-all overflow-hidden flex flex-col shadow-xl cursor-pointer"
+            className="group relative bg-neutral-900/50 backdrop-blur-sm rounded-3xl border border-neutral-800 hover:border-neutral-700 transition-all overflow-hidden flex flex-col shadow-xl cursor-pointer active:scale-[0.98]"
           >
-            {/* Action Menu Trigger */}
             <div className="absolute top-4 right-4 z-20">
                <button 
                 onClick={(e) => toggleMenu(e, collection.id)}
-                className="p-2 bg-neutral-950/60 backdrop-blur-md rounded-xl border border-neutral-800/50 text-neutral-400 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                className="p-2 bg-neutral-950/60 backdrop-blur-md rounded-xl border border-neutral-800/50 text-neutral-400 hover:text-white transition-all opacity-0 group-hover:opacity-100 active:scale-90"
                >
                  <MoreVertical size={16} />
                </button>
@@ -112,7 +140,7 @@ export const Collections: React.FC = () => {
                         <button 
                           key={i}
                           className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-colors",
+                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-colors active:bg-neutral-800",
                             item.color || "text-neutral-400 hover:text-white hover:bg-neutral-800"
                           )}
                         >
@@ -154,7 +182,7 @@ export const Collections: React.FC = () => {
         ))}
       </motion.div>
 
-      {/* Provision Node Modal */}
+      {/* Enhanced Provision Node Modal with Collaboration Step */}
       <AnimatePresence>
         {showProvisionModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -175,7 +203,7 @@ export const Collections: React.FC = () => {
                     <Database size={28} />
                   </div>
                   <h2 className="text-2xl font-display font-bold text-white mb-2">Initialize Knowledge Node</h2>
-                  <p className="text-neutral-500 text-sm mb-8 leading-relaxed">Define the parameters for your new secure knowledge silo. This node will be cryptographically isolated.</p>
+                  <p className="text-neutral-500 text-sm mb-8 leading-relaxed">Define the parameters for your new secure knowledge silo.</p>
                   
                   <div className="space-y-6">
                     <div className="space-y-2">
@@ -193,8 +221,49 @@ export const Collections: React.FC = () => {
                   </div>
 
                   <div className="flex gap-4 mt-10">
-                    <Button variant="secondary" className="flex-1 rounded-2xl h-12" onClick={() => setShowProvisionModal(false)}>Cancel</Button>
-                    <Button variant="primary" className="flex-1 rounded-2xl h-12" onClick={handleProvision}>Start Provisioning</Button>
+                    <Button variant="secondary" className="flex-1 rounded-2xl h-12 active:scale-95" onClick={() => setShowProvisionModal(false)}>Cancel</Button>
+                    <Button variant="primary" className="flex-1 rounded-2xl h-12 active:scale-95" onClick={handleNext}>Next: Add People</Button>
+                  </div>
+                </div>
+              )}
+
+              {provisionStep === 'collaborators' && (
+                <div className="p-8">
+                  <div className="h-14 w-14 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-6">
+                    <UserPlus size={28} />
+                  </div>
+                  <h2 className="text-2xl font-display font-bold text-white mb-2">Invite Operators</h2>
+                  <p className="text-neutral-500 text-sm mb-8 leading-relaxed">Share this collection with team members and define their access tier.</p>
+                  
+                  <div className="max-h-64 overflow-y-auto pr-2 space-y-2 mb-8 scrollbar-none">
+                    {MOCK_COLLABORATORS.map((user) => (
+                      <button 
+                        key={user.id}
+                        onClick={() => toggleCollaborator(user.id)}
+                        className={cn(
+                          "w-full flex items-center gap-4 p-3 rounded-2xl border transition-all text-left active:scale-[0.98]",
+                          selectedCollaborators.includes(user.id) 
+                            ? "bg-primary-600/10 border-primary-500/50 shadow-inner" 
+                            : "bg-neutral-950 border-neutral-800 hover:border-neutral-700"
+                        )}
+                      >
+                        <div className="h-10 w-10 rounded-xl bg-neutral-800 border border-neutral-700 flex items-center justify-center text-white font-bold text-xs shrink-0">
+                          {user.name.charAt(0)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-white truncate">{user.name}</p>
+                          <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-medium">{user.role}</p>
+                        </div>
+                        {selectedCollaborators.includes(user.id) && <CheckCircle2 size={18} className="text-primary-400 animate-in fade-in zoom-in duration-300" />}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-4">
+                    <Button variant="secondary" className="flex-1 rounded-2xl h-12 active:scale-95" onClick={() => setProvisionStep('form')}>Back</Button>
+                    <Button variant="glow" className="flex-1 rounded-2xl h-12 active:scale-95" onClick={handleProvision}>
+                      Provision Node {selectedCollaborators.length > 0 && `(${selectedCollaborators.length})`}
+                    </Button>
                   </div>
                 </div>
               )}
@@ -209,20 +278,11 @@ export const Collections: React.FC = () => {
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                     />
                     <div className="absolute inset-0 flex items-center justify-center text-primary-400">
-                      <Zap size={32} fill="currentColor" />
+                      <Zap size={32} fill="currentColor" className="animate-pulse" />
                     </div>
                   </div>
                   <h2 className="text-2xl font-display font-bold text-white mb-2">Provisioning Node...</h2>
                   <p className="text-neutral-500 text-sm max-w-[240px]">Generating unique cryptographic keys and mounting storage cluster.</p>
-                  
-                  <div className="w-full h-1 bg-neutral-800 rounded-full mt-10 overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 3 }}
-                      className="h-full bg-primary-500 shadow-[0_0_10px_rgba(139,92,246,0.5)]"
-                    />
-                  </div>
                 </div>
               )}
 
@@ -231,15 +291,12 @@ export const Collections: React.FC = () => {
                   <motion.div 
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="h-20 w-20 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-400 mb-8"
+                    className="h-20 w-20 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-400 mb-8 shadow-[0_0_30px_rgba(34,197,94,0.2)]"
                   >
                     <CheckCircle2 size={40} />
                   </motion.div>
                   <h2 className="text-2xl font-display font-bold text-white mb-2">Node Active</h2>
-                  <p className="text-neutral-500 text-sm">The knowledge silo has been successfully provisioned and indexed into the mesh.</p>
-                  <div className="mt-10 p-4 bg-neutral-950 border border-neutral-800 rounded-2xl font-mono text-[10px] text-neutral-500 w-full text-left">
-                    SIGNATURE: lumina_node_842x_signed
-                  </div>
+                  <p className="text-neutral-500 text-sm">The knowledge silo has been successfully provisioned and shared with selected operators.</p>
                 </div>
               )}
             </motion.div>

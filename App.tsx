@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Layout } from './components/Layout.tsx';
 import { Home } from './pages/Home.tsx';
 import { SearchResults } from './pages/SearchResults.tsx';
@@ -10,23 +11,33 @@ import { CollectionDetail } from './pages/CollectionDetail.tsx';
 import { DocumentReader } from './pages/DocumentReader.tsx';
 import { History } from './pages/History.tsx';
 import { Collaborators } from './pages/Collaborators.tsx';
+import { SMOOTH_TRANSITION } from './constants.ts';
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<SearchResults />} />
-        <Route path="/ask" element={<AskAI />} />
-        <Route path="/collections" element={<Collections />} />
-        <Route path="/collections/:id" element={<CollectionDetail />} />
-        <Route path="/documents/:id" element={<DocumentReader />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/collaborators" element={<Collaborators />} />
-        <Route path="*" element={<Home />} />
-      </Routes>
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 10, scale: 0.99 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -10, scale: 0.99 }}
+        transition={SMOOTH_TRANSITION}
+        className="h-full"
+      >
+        <Routes location={location}>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/ask" element={<AskAI />} />
+          <Route path="/collections" element={<Collections />} />
+          <Route path="/collections/:id" element={<CollectionDetail />} />
+          <Route path="/documents/:id" element={<DocumentReader />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/collaborators" element={<Collaborators />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </motion.div>
     </AnimatePresence>
   );
 };

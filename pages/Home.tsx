@@ -2,15 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SearchConsole } from '../components/SearchConsole.tsx';
-import { QuickActions } from '../components/QuickActions.tsx';
 import { Stars, Clock } from 'lucide-react';
 import { Spotlight, BackgroundBeams } from '../components/ui/Aceternity.tsx';
+import { QuickActions } from '../components/QuickActions.tsx';
+import { SMOOTH_TRANSITION } from '../constants.ts';
 
 export const Home: React.FC = () => {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
-    // Update every second to ensure the minute change is reflected precisely
     const timer = setInterval(() => {
       setTime(new Date());
     }, 1000);
@@ -40,33 +40,37 @@ export const Home: React.FC = () => {
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
       <BackgroundBeams />
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center -mt-20">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center -mt-12">
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
+           initial={{ opacity: 0, y: 10 }}
            animate={{ opacity: 1, y: 0 }}
-           className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-900/50 backdrop-blur-md mb-8"
+           transition={SMOOTH_TRANSITION}
+           className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/5 backdrop-blur-md mb-8"
         >
            <Stars size={12} className="text-primary-400" />
-           <span className="text-xs font-medium text-neutral-300">Lumina Operator Node 2.4 Active</span>
+           <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-400">Lumina Operator Node 2.4 Active</span>
         </motion.div>
 
-        <div className="text-center mb-12 max-w-4xl mx-auto">
+        <div className="text-center mb-12 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, filter: 'blur(10px)' }}
             animate={{ opacity: 1, filter: 'blur(0px)' }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col items-center"
           >
-            {/* Added px-4 and softened tracking to prevent gradient clipping */}
-            <h1 className="text-7xl md:text-9xl font-display font-bold text-white tracking-tight px-4 mb-4 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 via-neutral-200 to-neutral-500">
+            {/* Clock set to 8xl/9rem as requested */}
+            <h1 
+              style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Outfit", sans-serif' }}
+              className="text-8xl md:text-[9rem] font-bold text-white tracking-[-0.04em] px-4 mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-500 leading-none"
+            >
               {formatTime(time)}
             </h1>
             
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex items-center gap-3 text-neutral-500 font-bold tracking-[0.4em] text-[10px] md:text-xs uppercase"
+              transition={{ delay: 0.5, ...SMOOTH_TRANSITION }}
+              className="flex items-center gap-3 text-neutral-500 font-bold tracking-[0.3em] text-[10px] uppercase"
             >
               <div className="h-[1px] w-8 bg-neutral-800" />
               <Clock size={12} className="text-primary-500" />
@@ -76,11 +80,12 @@ export const Home: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* Focused Search Console - Expanded to max-w-4xl */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.98, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="w-full max-w-3xl relative z-20"
+          transition={{ ...SMOOTH_TRANSITION, delay: 0.4 }}
+          className="w-full max-w-4xl relative z-20"
         >
           <SearchConsole />
         </motion.div>
@@ -88,13 +93,14 @@ export const Home: React.FC = () => {
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="mt-12 text-neutral-600 text-sm font-bold tracking-[0.2em] uppercase"
+          transition={{ delay: 1, ...SMOOTH_TRANSITION }}
+          className="mt-12 text-neutral-600 text-[9px] font-black tracking-[0.2em] uppercase"
         >
-          Press <span className="px-2 py-1 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 mx-1">⌘</span> <span className="px-2 py-1 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-400 mx-1">K</span> to trigger search
+          Press <span className="px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-neutral-500 mx-0.5">⌘</span> <span className="px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-neutral-500 mx-0.5">K</span> to quick search
         </motion.p>
       </div>
-
+      
+      {/* Quick Actions only on home */}
       <QuickActions />
     </div>
   );

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion, useAnimation, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { clsx, type ClassValue } from 'clsx';
@@ -111,21 +112,23 @@ export const HoverEffect = ({
           onMouseLeave={() => setHoveredIndex(null)}
           onClick={() => onSelect && onSelect(item.id)}
         >
-          <div className="rounded-2xl h-full w-full p-4 overflow-hidden bg-neutral-900 border border-neutral-800 dark:border-white/[0.2] group-hover:border-neutral-700 relative z-20 transition-all duration-500 cursor-pointer">
+          <div className="rounded-[2.5rem] h-full w-full p-4 overflow-hidden bg-white/[0.03] backdrop-blur-xl border border-white/5 group-hover:border-white/20 relative z-20 transition-all duration-500 cursor-pointer shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
             <div className="relative z-50">
               <div className="p-4">
                 <div className="flex items-center gap-3 mb-2">
-                    {item.icon && <span className="text-primary-400">{item.icon}</span>}
-                    <h4 className="text-neutral-100 font-bold tracking-wide mt-1">{item.title}</h4>
+                    {item.icon && <span className="text-primary-400 group-hover:scale-110 transition-transform duration-500">{item.icon}</span>}
+                    <h4 className="text-neutral-100 font-bold tracking-wide mt-1 group-hover:text-white transition-colors">{item.title}</h4>
                 </div>
-                <p className="mt-4 text-neutral-400 tracking-wide leading-relaxed text-sm">{item.description}</p>
+                <p className="mt-4 text-neutral-400 tracking-wide leading-relaxed text-sm group-hover:text-neutral-300 transition-colors">{item.description}</p>
               </div>
             </div>
+            {/* Subtle inner shine */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
           </div>
           
           {hoveredIndex === idx && (
              <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-800/[0.8] block rounded-3xl -z-10"
+                className="absolute inset-0 h-full w-full bg-primary-500/[0.08] block rounded-[2.8rem] -z-10 blur-xl"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -192,8 +195,10 @@ export const BackgroundBeams = () => {
         <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-neutral-950 w-full h-full overflow-hidden">
              <div className="absolute inset-0 bg-neutral-950 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
              <div className="absolute top-0 left-0 w-full h-full bg-grid-white/[0.03] z-10" />
-             <div className="absolute -top-[30%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary-500/20 blur-[120px] z-0 animate-pulse" />
-             <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px] z-0" />
+             {/* Large glass orbs for depth */}
+             <div className="absolute -top-[30%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary-500/10 blur-[120px] z-0 animate-pulse" />
+             <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/5 blur-[100px] z-0" />
+             <div className="absolute bottom-[-10%] left-[20%] w-[30%] h-[30%] rounded-full bg-indigo-500/5 blur-[80px] z-0" />
         </div>
     )
 }

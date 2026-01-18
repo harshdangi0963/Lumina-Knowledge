@@ -1,10 +1,25 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MOCK_DOCUMENTS, containerVariants, itemVariants } from '../constants.ts';
 import { UploadCloud, FileText, CheckCircle2, AlertCircle, Loader2, Filter, MoreHorizontal } from 'lucide-react';
 import { Button } from '../components/ui/Button.tsx';
+import { cn } from '../components/ui/Aceternity.tsx';
 
 export const Library: React.FC = () => {
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFilter = () => {
+    setIsFiltering(true);
+    setTimeout(() => setIsFiltering(false), 800);
+  };
+
+  const handleUploadClick = () => {
+    setIsUploading(true);
+    setTimeout(() => setIsUploading(false), 1200);
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-4">
       
@@ -14,10 +29,10 @@ export const Library: React.FC = () => {
           <p className="text-neutral-500 mt-1">Manage and monitor all your indexed data sources.</p>
         </div>
         <div className="flex gap-3">
-           <Button variant="secondary" size="md">
+           <Button variant="secondary" size="md" onClick={handleFilter} loading={isFiltering} className="rounded-xl active:scale-95">
              <Filter size={16} className="mr-2" /> Filter
            </Button>
-           <Button variant="primary" size="md">
+           <Button variant="primary" size="md" onClick={handleUploadClick} loading={isUploading} className="rounded-xl active:scale-95">
              <UploadCloud size={16} className="mr-2" /> Upload
            </Button>
         </div>
@@ -25,14 +40,17 @@ export const Library: React.FC = () => {
 
       {/* Upload Zone */}
       <div className="mb-10">
-        <div className="border-2 border-dashed border-neutral-800 rounded-3xl p-10 flex flex-col items-center justify-center text-center bg-neutral-900/30 hover:bg-neutral-900/50 hover:border-neutral-700 transition-all cursor-pointer group relative overflow-hidden">
+        <button 
+          onClick={handleUploadClick}
+          className="w-full border-2 border-dashed border-neutral-800 rounded-3xl p-10 flex flex-col items-center justify-center text-center bg-neutral-900/30 hover:bg-neutral-900/50 hover:border-neutral-700 transition-all active:scale-[0.99] group relative overflow-hidden"
+        >
           <div className="absolute inset-0 bg-gradient-to-b from-primary-500/5 to-transparent pointer-events-none" />
           <div className="h-14 w-14 rounded-2xl bg-neutral-800 border border-neutral-700 text-primary-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary-500 group-hover:text-white transition-all shadow-xl">
              <UploadCloud size={28} />
           </div>
           <h3 className="text-lg font-bold text-white">Drag and drop assets here</h3>
           <p className="text-sm text-neutral-500 mt-2 max-w-xs mx-auto leading-relaxed">Indexed instantly using Lumina AI. Supports PDF, DOCX, TXT, and JSON files up to 50MB.</p>
-        </div>
+        </button>
       </div>
 
       {/* Table Container */}
@@ -91,7 +109,7 @@ export const Library: React.FC = () => {
                </div>
 
                <div className="col-span-1 text-right">
-                  <button className="p-2 text-neutral-600 hover:text-white hover:bg-neutral-700/50 rounded-lg transition-all opacity-0 group-hover:opacity-100">
+                  <button className="p-2 text-neutral-600 hover:text-white hover:bg-neutral-700/50 rounded-lg transition-all active:scale-90 group-hover:opacity-100 md:opacity-0">
                     <MoreHorizontal size={18} />
                   </button>
                </div>

@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MOCK_DOCUMENTS } from '../constants.ts';
-import { ChevronLeft, FileText, Sparkles, Zap, MessageSquare, BookOpen, Share2, MoreHorizontal, Copy } from 'lucide-react';
+// Added Loader2 to the imports from lucide-react
+import { ChevronLeft, FileText, Sparkles, Zap, MessageSquare, BookOpen, Share2, MoreHorizontal, Copy, Check, Loader2 } from 'lucide-react';
 import { Button } from '../components/ui/Button.tsx';
 import { cn } from '../components/ui/Aceternity.tsx';
 
@@ -11,12 +13,24 @@ export const DocumentReader: React.FC = () => {
   const navigate = useNavigate();
   const doc = MOCK_DOCUMENTS.find(d => d.id === id) || MOCK_DOCUMENTS[0];
   const [activeTab, setActiveTab] = useState<'insights' | 'chat'>('insights');
+  const [copied, setCopied] = useState(false);
+  const [isQuerying, setIsQuerying] = useState(false);
+
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleQuery = () => {
+    setIsQuerying(true);
+    setTimeout(() => setIsQuerying(false), 1500);
+  };
 
   return (
     <div className="flex h-[calc(100vh-120px)] -mt-4 -mx-8 relative">
       {/* Back Button Overlay */}
       <div className="absolute top-8 left-8 z-50">
-        <button onClick={() => navigate(-1)} className="p-3 bg-neutral-900/80 backdrop-blur-xl border border-neutral-800 rounded-2xl text-neutral-400 hover:text-white transition-all shadow-2xl">
+        <button onClick={() => navigate(-1)} className="p-3 bg-neutral-900/80 backdrop-blur-xl border border-neutral-800 rounded-2xl text-neutral-400 hover:text-white transition-all shadow-2xl active:scale-90">
           <ChevronLeft size={20} />
         </button>
       </div>
@@ -67,20 +81,22 @@ export const DocumentReader: React.FC = () => {
            <div className="flex p-1 bg-neutral-900 rounded-xl">
               <button 
                 onClick={() => setActiveTab('insights')}
-                className={cn("px-4 py-2 rounded-lg text-xs font-bold transition-all", activeTab === 'insights' ? "bg-neutral-800 text-white shadow-lg" : "text-neutral-500 hover:text-neutral-300")}
+                className={cn("px-4 py-2 rounded-lg text-xs font-bold transition-all active:scale-95", activeTab === 'insights' ? "bg-neutral-800 text-white shadow-lg" : "text-neutral-500 hover:text-neutral-300")}
               >
                 Insights
               </button>
               <button 
                 onClick={() => setActiveTab('chat')}
-                className={cn("px-4 py-2 rounded-lg text-xs font-bold transition-all", activeTab === 'chat' ? "bg-neutral-800 text-white shadow-lg" : "text-neutral-500 hover:text-neutral-300")}
+                className={cn("px-4 py-2 rounded-lg text-xs font-bold transition-all active:scale-95", activeTab === 'chat' ? "bg-neutral-800 text-white shadow-lg" : "text-neutral-500 hover:text-neutral-300")}
               >
                 Ask Agent
               </button>
            </div>
            <div className="flex gap-2">
-              <button className="p-2 text-neutral-500 hover:text-white transition-colors"><Share2 size={16} /></button>
-              <button className="p-2 text-neutral-500 hover:text-white transition-colors"><MoreHorizontal size={16} /></button>
+              <button onClick={handleCopy} className={cn("p-2 transition-all active:scale-75 rounded-lg", copied ? "text-green-400 bg-green-400/10" : "text-neutral-500 hover:text-white")}>
+                {copied ? <Check size={16} /> : <Copy size={16} />}
+              </button>
+              <button className="p-2 text-neutral-500 hover:text-white transition-all active:scale-75 rounded-lg"><Share2 size={16} /></button>
            </div>
         </div>
 
@@ -138,8 +154,12 @@ export const DocumentReader: React.FC = () => {
                         className="w-full bg-neutral-900 border border-neutral-800 rounded-2xl px-5 py-4 text-sm text-white focus:border-primary-500 outline-none transition-all pr-12"
                         placeholder="Query this document..."
                       />
-                      <button className="absolute right-3 top-3 h-8 w-8 rounded-xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-900/20">
-                         <Zap size={14} fill="currentColor" />
+                      <button 
+                        onClick={handleQuery}
+                        disabled={isQuerying}
+                        className="absolute right-3 top-3 h-8 w-8 rounded-xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-900/20 transition-all active:scale-75 disabled:opacity-50"
+                      >
+                         {isQuerying ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} fill="currentColor" />}
                       </button>
                    </div>
                 </motion.div>

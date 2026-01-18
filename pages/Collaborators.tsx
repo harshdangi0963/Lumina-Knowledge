@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { MOCK_COLLABORATORS, containerVariants, itemVariants } from '../constants.ts';
 import { 
   Users, Plus, Shield, ShieldAlert, ShieldCheck, Mail, Calendar, 
@@ -10,10 +12,19 @@ import { Button } from '../components/ui/Button.tsx';
 import { cn } from '../components/ui/Aceternity.tsx';
 
 export const Collaborators: React.FC = () => {
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteStatus, setInviteStatus] = useState<'form' | 'loading' | 'success'>('form');
+
+  // Monitor URL parameters for action triggers
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('action') === 'invite') {
+      setShowInviteModal(true);
+    }
+  }, [location]);
 
   const getRoleIcon = (role: string) => {
     switch (role) {
@@ -27,7 +38,6 @@ export const Collaborators: React.FC = () => {
     setUpdatingId(id);
     setTimeout(() => {
       setUpdatingId(null);
-      alert('Access Tier successfully re-provisioned.');
     }, 2000);
   };
 
@@ -52,7 +62,7 @@ export const Collaborators: React.FC = () => {
           <h1 className="text-4xl font-display font-bold text-white tracking-tight">Operator Mesh</h1>
           <p className="text-neutral-500 mt-2 text-lg">Manage identity silos and access tiers across your organization.</p>
         </div>
-        <Button variant="glow" size="lg" className="rounded-2xl h-12" onClick={() => setShowInviteModal(true)}>
+        <Button variant="glow" size="lg" className="rounded-2xl h-12 active:scale-95" onClick={() => setShowInviteModal(true)}>
           <Plus size={20} className="mr-2" /> Invite Operator
         </Button>
       </div>
@@ -63,7 +73,7 @@ export const Collaborators: React.FC = () => {
            { label: 'Privileged Access', value: '4', icon: ShieldAlert, color: 'text-red-400', trend: 'No changes' },
            { label: 'Identity Health', value: 'Optimal', icon: ShieldCheck, color: 'text-green-400', trend: 'Verified' }
          ].map(stat => (
-           <div key={stat.label} className="p-6 bg-neutral-900/50 border border-neutral-800 rounded-3xl backdrop-blur-md group hover:border-primary-500/30 transition-all">
+           <div key={stat.label} className="p-6 bg-neutral-900/50 border border-neutral-800 rounded-3xl backdrop-blur-md group hover:border-primary-500/30 transition-all active:scale-[0.98] cursor-default">
               <div className="flex items-center justify-between mb-6">
                  <div className={cn("p-3 rounded-2xl bg-neutral-950 border border-neutral-800 transition-colors group-hover:bg-primary-500/5", stat.color)}>
                     <stat.icon size={20} />
@@ -89,7 +99,7 @@ export const Collaborators: React.FC = () => {
                 className="w-full bg-neutral-950 border border-neutral-800 rounded-2xl pl-12 pr-4 py-3 text-sm text-white focus:border-primary-500 outline-none transition-all"
               />
            </div>
-           <Button variant="secondary" className="rounded-xl h-11"><History size={16} className="mr-2" /> Audit Access</Button>
+           <Button variant="secondary" className="rounded-xl h-11 active:scale-95"><History size={16} className="mr-2" /> Audit Access</Button>
         </div>
 
         <div className="px-8 py-5 grid grid-cols-12 gap-4 text-[10px] font-bold text-neutral-500 uppercase tracking-[0.2em] border-b border-neutral-800/60">
@@ -111,7 +121,7 @@ export const Collaborators: React.FC = () => {
                   <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-neutral-800 to-neutral-700 flex items-center justify-center text-white font-bold text-sm border border-neutral-600 shadow-xl group-hover:scale-110 transition-transform">
                     {user.name.charAt(0)}
                   </div>
-                  <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full border-2 border-neutral-900 bg-green-500" />
+                  <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full border-2 border-neutral-900 bg-green-500 animate-pulse" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-neutral-200 truncate group-hover:text-primary-400 transition-colors">{user.name}</p>
@@ -124,7 +134,7 @@ export const Collaborators: React.FC = () => {
                   onClick={() => handleRoleChange(user.id)}
                   disabled={updatingId === user.id}
                   className={cn(
-                    "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider border transition-all hover:bg-neutral-800",
+                    "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider border transition-all hover:bg-neutral-800 active:scale-90",
                     updatingId === user.id ? "bg-primary-500/10 border-primary-500/30 text-primary-400" : "bg-neutral-900 border-neutral-800 text-neutral-400"
                   )}
                 >
@@ -149,8 +159,8 @@ export const Collaborators: React.FC = () => {
               </div>
 
               <div className="col-span-2 text-right flex justify-end gap-2">
-                <button className="p-2.5 text-neutral-600 hover:text-white hover:bg-neutral-800 rounded-xl transition-all opacity-0 group-hover:opacity-100"><Activity size={18} /></button>
-                <button className="p-2.5 text-neutral-600 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all opacity-0 group-hover:opacity-100"><UserMinus size={18} /></button>
+                <button className="p-2.5 text-neutral-600 hover:text-white hover:bg-neutral-800 rounded-xl transition-all opacity-0 group-hover:opacity-100 active:scale-75"><Activity size={18} /></button>
+                <button className="p-2.5 text-neutral-600 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all opacity-0 group-hover:opacity-100 active:scale-75"><UserMinus size={18} /></button>
               </div>
             </motion.div>
           ))}
@@ -183,13 +193,13 @@ export const Collaborators: React.FC = () => {
                    <div className="space-y-6">
                       <div className="space-y-2">
                          <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1">Email Address</label>
-                         <input type="email" className="w-full bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-3.5 text-white outline-none focus:border-primary-500 transition-all" placeholder="operator@lumina.ai" />
+                         <input type="email" className="w-full bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-3.5 text-white outline-none focus:border-primary-500 transition-all placeholder:text-neutral-700" placeholder="operator@lumina.ai" />
                       </div>
                       <div className="space-y-2">
                          <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1">Initial Access Tier</label>
                          <div className="grid grid-cols-3 gap-2">
                             {['Viewer', 'Editor', 'Admin'].map(role => (
-                              <button key={role} className="py-2.5 rounded-xl border border-neutral-800 text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-white hover:border-neutral-600 transition-all">
+                              <button key={role} className="py-2.5 rounded-xl border border-neutral-800 text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-white hover:border-neutral-600 transition-all active:scale-95 active:bg-neutral-800">
                                 {role}
                               </button>
                             ))}
@@ -198,8 +208,8 @@ export const Collaborators: React.FC = () => {
                    </div>
 
                    <div className="flex gap-4 mt-10">
-                      <Button variant="secondary" className="flex-1 h-12 rounded-2xl" onClick={() => setShowInviteModal(false)}>Cancel</Button>
-                      <Button variant="primary" className="flex-1 h-12 rounded-2xl" onClick={handleInvite}>Send Invitation</Button>
+                      <Button variant="secondary" className="flex-1 h-12 rounded-2xl active:scale-95" onClick={() => setShowInviteModal(false)}>Cancel</Button>
+                      <Button variant="primary" className="flex-1 h-12 rounded-2xl active:scale-95" onClick={handleInvite}>Send Invitation</Button>
                    </div>
                  </div>
                )}
@@ -214,7 +224,7 @@ export const Collaborators: React.FC = () => {
 
                {inviteStatus === 'success' && (
                  <div className="p-12 flex flex-col items-center text-center">
-                    <div className="h-20 w-20 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 mb-6">
+                    <div className="h-20 w-20 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 mb-6 shadow-[0_0_20px_rgba(34,197,94,0.1)]">
                        <CheckCircle2 size={40} />
                     </div>
                     <h2 className="text-2xl font-display font-bold text-white mb-2">Invitation Transmitted</h2>
